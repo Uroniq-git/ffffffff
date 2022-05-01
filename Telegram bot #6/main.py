@@ -1,5 +1,6 @@
 from aiohttp import TraceRequestEndParams
 import config
+import aiogram
 from aiogram import Bot, Dispatcher, executor, types
 
 bot = Bot(token=config.API_TOKEN)
@@ -25,27 +26,32 @@ async def mute(message: types.Message):
 
 @dp.message_handler(commands="unmute")
 async def unmute(message: types.Message):
-    msgText = message.text
-    try:
-        username = msgText.split(' ')[1].replace('@', '') 
-    except:
-        await message.answer("Ошибка, /unmute <username>")
+    if(message.from_user.id in config.canUnmute):
+        msgText = message.text
+        try:
+            username = msgText.split(' ')[1].replace('@', '') 
+        except:
+            await message.answer("Ошибка, /unmute <username>")
     
-    if(username):
-        config.unmutedable.append(username)
+        if(username):
+            config.unmutedable.append(username)
+    else:
+        await message.answer("У вас недостаточно прав для выполнения этой команды")
 
 
 @dp.message_handler(commands='permUnmute')
 async def permunmute(message: types.Message):
-    msgText = message.text
-    try:
-        username = msgText.split(' ')[1]
-    except:
-        await message.answer("Ошибка, /permUnmute <chatID>")
+    if(message.from_user.id in config.canUnmute):
+        msgText = message.text
+        try:
+            username = msgText.split(' ')[1]
+        except:
+                await message.answer("Ошибка, /permUnmute <chatID>")
 
-    if(username): 
-        await bot.restrict_chat_member(message.chat.id, username, can_send_messages=True, can_send_media_messages=True, can_send_other_messages=True, can_add_web_page_previews=True )
-    
+        if(username): 
+            await bot.restrict_chat_member(message.chat.id, username, can_send_messages=True, can_send_media_messages=True, can_send_other_messages=True, can_add_web_page_previews=True )
+    else:
+        await message.answer("У вас недостаточно прав для выполнения этой команды")    
     
 
 if __name__ == '__main__':
