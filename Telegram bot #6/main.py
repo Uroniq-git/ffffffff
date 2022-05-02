@@ -1,3 +1,12 @@
+№1 Админ Awes, [02.05.2022 16:40]
+5330772335:AAEUl4Tu7J89iADEzC18GPD_8ozpiTBj1Pc
+
+№1 Админ Awes, [02.05.2022 16:40]
+Это первый
+
+№1 Админ Awes, [02.05.2022 16:40]
+5360917182:AAFlzVvQtRCPCFxP4_2GDUZeYTj7p9qXNzk
+
 from aiohttp import TraceRequestEndParams
 import config
 import aiogram
